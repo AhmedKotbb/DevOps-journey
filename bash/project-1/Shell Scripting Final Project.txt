@@ -1,0 +1,55 @@
+ Shell Scripting Final Project
+-----------------------------
+
+Project Name: Close symptom events
+
+Assume that we have a monitoring tool, and this monitoring tool collecting events from many sources like servers 
+each event express the status of the source which came form it,
+ex: unix server_1 fired event for diskspace issue 
+another event say there is an issue due to buffering  and so on...
+
+each event open a incident number express issue, and when the issue resolved it should close the events and close the incident
+
+but we have an issue:
+
+in some cases the incident got resolved but event still opened in the monitoring tool
+
+we need to check the status of each incident (closed or opened) then if the incient is closed so you need to close the event 
+and if the incident is opened so you will do nothing 
+
+-------------------------------------------------------------
+
+1- create a new file called (ticket_status) 
+   in the file write multible incident numbers like (INC0000401355) and write the status of it infront of the incidnt
+
+ex: INC0000401355  opened
+    INC0000401340  closed
+    INC0000401356  closed
+
+--------------------------------------------------------------
+2- creat a file called ( events_tickets.txt )
+
+in the file, write the event id and those incident number, write 10 ids
+
+ex: INC0000401355          6192fd9a-9b03-71ec-01b9-0a4e23470000 
+    INC0000401340          6192fd9a-9b03-71ec-01b9-0a4e23454213
+    ...
+    ...
+----------------------------------------------------------------
+
+create  script to ask the user to enter the incident number 
+then take the incident number and check if it is closed or open 
+and if it's closed so create new file called events_status.txt and write the event of the desired incident number which came from the user and write infront of it (closed)
+and print the event and status to the user 
+
+and if the incident is opened so do nothing and print the event to user and ensure that th event is still open
+
+
+ex:
+
+Events_status.txt 
+------------------
+
+6192fd9a-9b03-71ec-01b9-0a4e23470000  closed
+
+   
