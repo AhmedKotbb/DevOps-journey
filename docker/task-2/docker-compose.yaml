@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  weather-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_WEATHER_API_KEY: ${VITE_WEATHER_API_KEY:-}
+    image: weather-app:latest
+    container_name: weather-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
+
