@@ -1,1 +1,1 @@
-in this lab we wanna create an image for a pure html, css and javascript.
+in this lab we wanna create an image for a pure html, css and javascript game.
