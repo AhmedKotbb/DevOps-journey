@@ -19,3 +19,5 @@ COPY --from=builder /app .
 EXPOSE 3000
 
 CMD ["index.js"]
+
+# build image on diff arch 
