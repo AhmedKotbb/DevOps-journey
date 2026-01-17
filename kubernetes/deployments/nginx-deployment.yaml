@@ -1,0 +1,23 @@
+apiVersion: apps/v1                 # API group and version for the Deployment resource
+kind: Deployment                    # Declares this object as a Deployment
+
+metadata:                           # Metadata section for the Deployment
+  name: nginx-deployment             # Unique name of the Deployment within the namespace
+  labels:                            # Labels applied to the Deployment object
+    app: nginx                       # Application identifier label
+
+spec:                               # Desired state specification for the Deployment
+  replicas: 3                       # Number of Pod replicas to run
+  selector:                         # Selector used to match Pods managed by this Deployment
+    matchLabels:                    # Label-based selection criteria
+      app: nginx-web-server          # Pods with this label will be managed by the Deployment
+  template:                         # Pod template used to create Pods
+    metadata:                       # Metadata applied to each Pod
+      labels:                       # Labels assigned to Pods
+        app: nginx-web-server        # Must exactly match selector.matchLabels
+    spec:                           # Pod specification
+      containers:                   # List of containers in the Pod
+      - name: nginx                 # Name of the container
+        image: nginx:1.25           # Container image and version pulled from registry
+        ports:                      # Ports exposed by the container
+        - containerPort: 80         # Port NGINX listens on inside the container

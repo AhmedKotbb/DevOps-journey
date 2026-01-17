@@ -1,0 +1,55 @@
+# This manifest defines a Kubernetes Pod running an NGINX container
+apiVersion: v1            # API version for core Kubernetes objects
+kind: Pod                 # Specifies the resource type is a Pod
+
+metadata:
+  name: web-server     # Unique name of the Pod within the namespace
+  labels:
+    app: web-server    # Key-value metadata used for selection, grouping, or identification
+
+spec:
+  restartPolicy: Always   # The Pod will always restart containers if they fail
+                          # (Default for Pods; common in long-running services)
+
+  containers:
+  - name: nginx           # Logical name of the container inside the Pod
+    image: nginx:1.25     # Container image to run; includes specific NGINX version
+    ports:
+      - containerPort: 80 # Exposes port 80 inside the container; helps services map traffic
+
+    resources:
+      requests:           # Minimum guaranteed resources Kubernetes reserves for this container
+        cpu: "100m"       # 100 millicores CPU request
+        memory: "128Mi"   # 128 MiB RAM request
+      limits:             # Maximum allowed resources; container cannot exceed these
+        cpu: "500m"       # 500 millicores CPU limit
+        memory: "256Mi"   # 256 MiB RAM limit
+
+    readinessProbe:       # Determines when the container is ready to receive traffic
+      httpGet:
+        path: /           # Probe requests root endpoint of NGINX
+        port: 80
+      initialDelaySeconds: 5  # Wait 5s after container start before probing
+      periodSeconds: 10       # Probe every 10s
+
+    livenessProbe:        # Determines if container is alive; restarts container on failure
+      httpGet:
+        path: /           # Same HTTP check as readiness
+        port: 80
+      initialDelaySeconds: 15 # Wait 15s before first liveness probe
+      periodSeconds: 20       # Probe every 20s
+
+  initContainers:         # Containers that run BEFORE main containers start
+  - name: init-myservice
+    image: busybox        # Lightweight BusyBox utility image
+    command: ['sh', '-c', 'echo init; sleep 2']
+                          # Runs a simple shell command, simulating setup work
+                          # Pod will not start main containers until this completes
+
+  volumes:
+  - name: data            # Volume name referenced by containers if mounted
+    emptyDir: {}          # Creates an ephemeral storage directory on the node
+                          # Exists only while the Pod is running
+
+
+# for a simple pod declaration you can omit fields like 'resources', 'probes', and 'initContainers'

@@ -1,0 +1,26 @@
+apiVersion: apps/v1            # API group and version used for ReplicaSet resources
+kind: ReplicaSet               # Specifies that this object is a ReplicaSet
+
+metadata:                      # Metadata section for the ReplicaSet object
+  name: nginx-replicas         # Unique name of the ReplicaSet within the namespace
+  labels:                      # Labels applied to the ReplicaSet object itself
+    app: web-server-rs         # Label for identification and organization (not Pod selection)
+
+spec:                          # Specification defining the desired state of the ReplicaSet
+  replicas: 3                  # Desired number of Pod replicas to run at all times
+
+  selector:                    # Selector used by the ReplicaSet to identify managed Pods
+    matchLabels:               # Pods must match these labels to be owned by the ReplicaSet
+      app: web-server          # Label key-value pair used for Pod selection (immutable)
+
+  template:                    # Pod template used to create new Pods
+    metadata:                  # Metadata applied to each Pod created by the ReplicaSet
+      labels:                  # Labels assigned to Pods
+        app: web-server        # MUST match selector labels for correct ownership
+
+    spec:                      # Specification of the Pod
+      containers:              # List of containers that run inside each Pod
+        - name: nginx          # Name of the container (unique within the Pod)
+          image: nginx:1.25    # Container image and tag pulled from the registry
+          ports:               # Ports exposed by the container
+            - containerPort: 80 # Port on which NGINX listens inside the container
