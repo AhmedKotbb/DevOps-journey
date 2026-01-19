@@ -1,0 +1,9 @@
+apiVersion: v1                     # Kubernetes API version for Namespace objects
+kind: Namespace                    # Resource type
+metadata:
+  name: development-ns             # Unique namespace name within the cluster
+  labels:                          # Optional key/value metadata for selection and grouping
+    environment: development
+    team: development
+  annotations:                     # Optional non-identifying metadata
+    description: "This namespace is used for development workloads"
