@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-port-svc
+spec:
+  selector:
+    app: web-app    # The same label as in the pods
+  ports:
+  - protocol: TCP
+    port: 80        # The port that the service will expose
+    targetPort: 80  # The port on the pod to forward traffic to
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane
+      # will allocate a port from a range (default: 30000-32767)
+    # nodePort: 30007 
+  type: NodePort  

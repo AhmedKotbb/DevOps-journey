@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-ip-svc
+spec:
+  selector:
+    app: web-app    # The same label as in the pods
+  ports:
+  - protocol: TCP
+    port: 80        # The port that the service will expose
+    targetPort: 80  # The port on the pod to forward traffic to
+  type: ClusterIP   # Default type, exposes the service on a cluster-internal IP
