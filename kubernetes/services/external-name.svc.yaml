@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-name-svc
+spec:
+  type: ExternalName        # Defines the type of service as ExternalName
+  externalName: example.com # The external DNS name to which the service will map
+  # An ExternalName service does not have selectors or ports.
+  # When a client accesses this service, Kubernetes returns a CNAME record
+  # pointing to the specified externalName. This allows services within the cluster
+  # to access external services using a consistent internal DNS name.
+
+  # Note: ExternalName services do not create any proxying or load balancing.
+  # They simply provide a way to reference external services by name.
+
+  # We can use a sService Backed by EndpointSlice to achieve similar functionality with more control and load balancing,
+  # but that is a more advanced topic beyond the scope of this simple ExternalName service example

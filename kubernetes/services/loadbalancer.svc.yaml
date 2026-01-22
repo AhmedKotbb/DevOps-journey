@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-svc
+spec:
+  selector:
+    app: web-app          # The same label as in the pods
+  ports:
+    - protocol: TCP
+      port: 80            # The port that the service will expose
+      targetPort: 80      # The port that the service will expose
+  type: LoadBalancer      # Defines the type of service as LoadBalancer
+  # The behaviour of a LoadBalancer service depends heavily on the underlying infrastructure.
+  # In cloud environments, a LoadBalancer service will provision an external load balancer
+  # that routes traffic to the service. In on-premises or bare-metal environments, additional
+  # configurations or tools (like MetalLB) may be required to achieve similar functionality.
