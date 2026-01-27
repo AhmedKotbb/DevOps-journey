@@ -25,6 +25,13 @@ spec:
         cpu: "500m"       # 500 millicores CPU limit
         memory: "256Mi"   # 256 MiB RAM limit
 
+    startupProbe:        # Checks if the container has started successfully
+      httpGet:
+        path: /           # Probe requests root endpoint of NGINX
+        port: 80
+      initialDelaySeconds: 10 # Wait 10s after container start before probing
+      periodSeconds: 15       # Probe every 15s
+
     readinessProbe:       # Determines when the container is ready to receive traffic
       httpGet:
         path: /           # Probe requests root endpoint of NGINX

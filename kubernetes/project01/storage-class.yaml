@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: learning-platform-storage
+  labels:
+    app: learning-platform
+provisioner: rancher.io/local-path  # Common in k3d/k3s. For other clusters, change to:
+  # minikube: k8s.io/minikube-hostpath
+  # kind: rancher.io/local-path
+  # GKE: pd.csi.storage.gke.io
+  # EKS: ebs.csi.aws.com
+  # AKS: disk.csi.azure.com
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Retain
