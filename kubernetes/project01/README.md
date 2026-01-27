@@ -109,4 +109,4 @@ kubectl logs -l component=database
 - The database uses a PersistentVolumeClaim with a custom StorageClass (`learning-platform-storage`) to persist data
 - The StorageClass uses `rancher.io/local-path` provisioner by default (common in k3d/k3s). Update the provisioner in `storage-class.yaml` for other cluster types
 - Backend connects to database using environment variables from the secret
-- Frontend should be configured to call the backend service at `http://backend-service:8000`
+- Frontend should be configured to call the backend service at `http://backend:8000`
