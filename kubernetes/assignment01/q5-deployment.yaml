@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app-ha
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - web
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: web-app
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+
+
+# in my local cluster i have only 2 nodes
+# so only 3 pods will be Running in 2 different nodes 
+# and the third pod status is going to be Pending

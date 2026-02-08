@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ssd-app
+  labels:
+    disktype: ssd
+spec:
+  nodeSelector:
+    disktype: ssd
+  containers:
+  - name: nginx
+    image: nginx:1.25-alpine
+    ports:
+    - containerPort: 80
+
+# before applying the pod, you need to add the label to the node
+# kubectl label node minikube-m02 disktype=ssd
+# after applying the pod, you can see the pod is scheduled to the node with the label
+# kubectl get pods -o wide
+# NAME            READY   STATUS    RESTARTS   AGE   IP            NODE             NOMINATED NODE   READINESS GATES
+# ssd-app        1/1     Running   0          12s   10.244.0.11   minikube-m02     <none>           <none>
+
+
+# you can also do this using the imperative way
+
+# kubectl run ssd-app \
+#   --image=nginx:1.25-alpine \
+#   --labels=disktype=ssd \
+#   --overrides='{
+#     "apiVersion": "v1",
+#     "spec": {
+#       "nodeSelector": {
+#         "disktype": "ssd"
+#       }
+#     }
+#   }'

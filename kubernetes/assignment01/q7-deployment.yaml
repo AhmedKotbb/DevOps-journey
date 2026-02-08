@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: analytics-app
+  template:
+    metadata:
+      labels:
+        app: analytics-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - analytics
+      containers:
+        - name: analytics-app
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+      tolerations:
+        - key: "analytics"
+          operator: "Equal"
+          value: "strict"
+          effect: "NoSchedule"
+
+# kubectl label node minikube-m02 role=analytics
+# kubectl taint node minikube-m02 role=analytics:NoSchedule

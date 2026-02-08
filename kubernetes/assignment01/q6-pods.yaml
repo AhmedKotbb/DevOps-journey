@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-toleration
+spec:
+  containers:
+    - name: nginx-with-toleration
+      image: nginx:1.25-alpine
+      ports:
+        - containerPort: 80
+  tolerations:
+    - key: "dedicated"
+      operator: "Equal"
+      value: "gpu"
+      effect: "NoSchedule"
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-no-toleration
+spec:
+  containers:
+    - name: nginx-no-toleration
+      image: nginx:1.25-alpine
+      ports:
+        - containerPort: 80
+
+
+# To taint the node, before running the pods, run the following command:
+# kubectl taint node minikube-m02 dedicated=gpu:NoSchedule
+
+# only the pod with the toleration is allowed on the GPU-dedicated node.
+# the pod without the toleration is not allowed on the GPU-dedicated node and will be scheduled on a different node.
