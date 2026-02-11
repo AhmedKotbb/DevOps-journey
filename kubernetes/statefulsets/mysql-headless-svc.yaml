@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-headless-svc
+spec:
+  selector:
+    app: mysql-db
+  ports:
+  - port: 3306
+  clusterIP: None
+
+
+# this is a headless service the key difference between a headless service and a regular service is that 
+# a headless service disables the virtual IP and load balancing.
+# Instead of returning a single ClusterIP, DNS returns the individual Pod IPs behind the Service.
+# so it is used for statefulsets to connect to the pods directly without the need for a virtual IP.
